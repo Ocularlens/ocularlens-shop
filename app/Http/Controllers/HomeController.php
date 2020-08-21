@@ -9,11 +9,13 @@ class HomeController extends Controller
 {
     //
 
-    public function show_products()
+    public function showProducts()
     {
         $products = Product::all();
         return view('home.products')->with([
             'products' => $products
         ]);
     }
+
+    
 }

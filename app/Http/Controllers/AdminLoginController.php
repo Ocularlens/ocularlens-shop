@@ -13,6 +13,11 @@ class AdminLoginController extends Controller
         $this->middleware('guest:admins')->except('logout');
     }
 
+    public function showAdminLoginForm()
+    {
+        return view('admin.login', ['url' => 'admin']); 
+    }
+
     public function login(Request $request)
     {
         $request->validate([
