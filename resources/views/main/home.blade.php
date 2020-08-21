@@ -54,7 +54,7 @@
                             </div>
                         @endif
                     </li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fas fa-shopping-cart"></i></a></li>
+                    <li class="nav-item"><a href="" class="nav-link" data-toggle="modal" data-target="#myModal"><i class="fas fa-shopping-cart"></i></a></li>
                 </ul>
                 </ul>
             </div>
@@ -65,5 +65,63 @@
         @yield('content') 
     </main>
     </div>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Cart</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+                @php
+                    $products = Session::get('my-cart');  
+                @endphp
+                @if (is_null($products))
+                    <h5>Items (0)</h5>
+                @else
+                    <h5>Items ({{count($products)}})</h5>
+                    <table class="table table-borderless">
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>{{$product->name}}</td>
+                                <td>&times; {{$product->qty}}</td>
+                                <td>{{number_format($product->price * $product->qty, 2)}}</td>
+                                @if ($product->qty ==1)
+                                <td>
+                                    <a href="/cart/remove/{{$product->id}}" class="btn"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                                @else
+                                <td>
+                                    <a href="/cart/remove/{{$product->id}}" class="btn"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="/cart/deduct/{{$product->id}}" class="btn"><i class="fas fa-minus"></i></a>
+                                </td>
+                                @endif
+                                
+                            </tr>
+                        @endforeach
+                    </table>  
+                @endif
+                <div class="row">
+                    <div class="col-lg-4">
+                       <a href="" class="btn btn-info form-control">CHECK OUT</a> 
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="/cart/view" class="btn btn-info form-control">VIEW CART</a> 
+                     </div>
+                    <div class="col-lg-4">
+                        <a href="/cart/clear" class="btn btn-warning form-control">CLEAR CART</a> 
+                    </div>
+                </div>
+            </div>
+      
+            <!-- Modal footer -->      
+          </div>
+        </div>
+      </div>
 </body>
 </html>

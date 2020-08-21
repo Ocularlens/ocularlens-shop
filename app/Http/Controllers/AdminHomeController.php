@@ -20,7 +20,7 @@ class AdminHomeController extends Controller
         return view('admin.index');
     }
 
-    public function show_members()
+    public function showMembers()
     {
         $members = Member::all();
 

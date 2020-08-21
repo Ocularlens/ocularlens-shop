@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,18 +19,31 @@ Route::get('/', function () {
     return view('home.index');
 });
 
-Route::get('/products', 'HomeController@show_products');
+Route::get('/products', 'HomeController@showProducts');
 
 Route::view('/register', 'home.register');
 Route::post('/register', 'MemberController@store');
 
-Route::view('/login', 'home.login')->name('login');
+Route::group(array('prefix' => 'cart'), function() {
+    Route::get('/add/{product}', 'CartController@addToCart');
+    Route::get('/view', 'CartController@view');
+    Route::get('/clear', 'CartController@clearCart');
+    Route::get('/deduct/{product}', 'CartController@deductSpecificProduct');
+    Route::get('/remove/{product}', 'CartController@removeProduct');
+});
+
+Route::group(array('prefix' => 'checkout'), function () {
+    
+});
+
+Route::get('/login', 'MemberLoginController@showAdminLoginForm')->name('home.login');
 Route::post('/login', 'MemberLoginController@login');
 
 Route::group(array('prefix' => 'member'), function() {
     Route::get('/verify', 'VerifyController@member');
     Route::get('/logout', function() {
         Auth::guard('members')->logout();
+        Session::forget('my-cart');
         return redirect('/');
     });
     Route::get('verify/{verification_token}', 'MemberController@verify');
@@ -51,10 +65,10 @@ Route::group(array('prefix' => 'admin'), function() {
     });
 
     Route::group(array('prefix' => 'members'), function() {
-        Route::get('/', 'AdminHomeController@show_members');
+        Route::get('/', 'AdminHomeController@showMembers');
     });
 
-    Route::view('/login', 'admin.login')->name('login');
+    Route::get('/login', 'AdminLoginController@showAdminLoginForm')->name('login');
     Route::post('/login', 'AdminLoginController@login');
 
     Route::view('/register', 'admin.register');

@@ -11,6 +11,12 @@ class MemberLoginController extends Controller
     {
         $this->middleware('guest:members')->except('logout');
     }
+
+    public function showAdminLoginForm()
+    {
+        return view('home.login', ['url' => '/']); 
+    }
+
     //
     public function login(Request $request)
     {
