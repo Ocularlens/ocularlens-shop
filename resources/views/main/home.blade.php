@@ -33,9 +33,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a href="" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="/products" class="nav-link">Products</a></li>
-                    <li class="nav-item"><a href="" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="/shop" class="nav-link">Shop</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                           {{Auth::guard('members')->user()->first_name ?? 'Member'}} <i class="far fa-user-circle"></i>
@@ -45,7 +44,9 @@
                                 @if (is_null(Auth::guard('members')->user()->email_verified_at))
                                     <a class="dropdown-item" href="/member/verify">Verify</a>
                                 @endif
-                                <a class="dropdown-item" href="/member/logout">Log out</a>
+                                <a class="dropdown-item" href="/member/transactions">Transactions</a>
+                                <a class="dropdown-item" href="/member/edit">Edit Account</a> 
+                                <a class="dropdown-item" href="/member/logout">Log out</a> 
                             </div>
                         @else
                             <div class="dropdown-menu">
@@ -54,7 +55,10 @@
                             </div>
                         @endif
                     </li>
+                    @if (!Request::is('cart*') && !Request::is('checkout*'))
                     <li class="nav-item"><a href="" class="nav-link" data-toggle="modal" data-target="#myModal"><i class="fas fa-shopping-cart"></i></a></li>
+                    @endif
+                    
                 </ul>
                 </ul>
             </div>
@@ -90,7 +94,7 @@
                             <tr>
                                 <td>{{$product->name}}</td>
                                 <td>&times; {{$product->qty}}</td>
-                                <td>{{number_format($product->price * $product->qty, 2)}}</td>
+                                <td style="text-align: right">PHP {{number_format($product->price * $product->qty, 2)}}</td>
                                 @if ($product->qty ==1)
                                 <td>
                                     <a href="/cart/remove/{{$product->id}}" class="btn"><i class="fas fa-trash-alt"></i></a>
@@ -107,15 +111,19 @@
                     </table>  
                 @endif
                 <div class="row">
-                    <div class="col-lg-4">
-                       <a href="" class="btn btn-info form-control">CHECK OUT</a> 
-                    </div>
-                    <div class="col-lg-4">
-                        <a href="/cart/view" class="btn btn-info form-control">VIEW CART</a> 
-                     </div>
-                    <div class="col-lg-4">
-                        <a href="/cart/clear" class="btn btn-warning form-control">CLEAR CART</a> 
-                    </div>
+                    @if (!is_null($products))
+                        @if (count($products) > 0)
+                        <div class="col-lg-4">
+                            <a href="/checkout" class="btn btn-info form-control">CHECK OUT</a> 
+                        </div>
+                        <div class="col-lg-4">
+                            <a href="/cart/view" class="btn btn-info form-control">VIEW CART</a> 
+                        </div>
+                        <div class="col-lg-4">
+                            <a href="/cart/clear" class="btn btn-warning form-control">CLEAR CART</a> 
+                        </div> 
+                        @endif     
+                    @endif
                 </div>
             </div>
       

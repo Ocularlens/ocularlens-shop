@@ -21,13 +21,12 @@
                                 <td>{{$member->email}}</td>
                                 <td>{{date_format($member->created_at, 'M d, Y H:i:s')}}</td>
                                 <td>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="/admin/members/delete/{{$member->id}}" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <a href="/admin/products/new" class="btn btn-info btn-sm">New Product</a>
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAddressMember extends Migration
+class EditProductTransaction extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddAddressMember extends Migration
     public function up()
     {
         //
-        Schema::table('members', function(Blueprint $table) {
-            $table->string('address')->change();
+        Schema::table('products_transactions', function(Blueprint $table) {
+            $table->integer('quantity')->after('transaction_id');
         });
     }
 

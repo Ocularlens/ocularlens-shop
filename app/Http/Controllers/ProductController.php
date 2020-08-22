@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Hash;
 class ProductController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('auth:admins');
+    }
 
     public function index()
     {
@@ -41,7 +45,6 @@ class ProductController extends Controller
         $files->move('storage/product/', $filename);
 
         $product = new Product([
-            'item_code' => Hash::make(str_replace(['.','/'],'',$request['name'])),
             'name' => $request['name'],
             'description' => $request['description'],
             'price' => $request['price'],
@@ -96,5 +99,12 @@ class ProductController extends Controller
         return redirect('/admin/products')->with([
             'message' => 'Product saved'
         ]);
+    }
+
+    public function delete(Product $product)
+    {
+        $product->transactions()->detach();
+        $product->delete();
+        return redirect()->back();
     }
 }

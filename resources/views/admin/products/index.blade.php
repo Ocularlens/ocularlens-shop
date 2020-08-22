@@ -24,7 +24,7 @@
                                 <td>{{$product->quantity}}</td>
                                 <td>
                                     <a href="/admin/products/edit/{{$product->id}}" class="btn btn-success btn-sm">Edit</a>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="/admin/products/delete/{{$product->id}}" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('home.index');
 });
 
-Route::get('/products', 'HomeController@showProducts');
+Route::get('/shop', 'HomeController@showProducts');
 
 Route::view('/register', 'home.register');
 Route::post('/register', 'MemberController@store');
@@ -33,7 +33,8 @@ Route::group(array('prefix' => 'cart'), function() {
 });
 
 Route::group(array('prefix' => 'checkout'), function () {
-    
+    Route::get('/', 'CheckOutController@show');
+    Route::post('/', 'CheckOutController@charge');
 });
 
 Route::get('/login', 'MemberLoginController@showAdminLoginForm')->name('home.login');
@@ -47,6 +48,13 @@ Route::group(array('prefix' => 'member'), function() {
         return redirect('/');
     });
     Route::get('verify/{verification_token}', 'MemberController@verify');
+
+    Route::get('/transactions', 'MemberController@viewTransactions');
+
+    Route::get('/edit', 'MemberController@view');
+    Route::post('/edit', 'MemberController@edit');
+
+    Route::get('/refund/{id}', 'MemberController@requestRefund');
 });
 
 Route::group(array('prefix' => 'admin'), function() {
@@ -62,10 +70,24 @@ Route::group(array('prefix' => 'admin'), function() {
 
         Route::get('/edit/{product}', 'ProductController@view');
         Route::post('/edit/{product}', 'ProductController@edit');
+
+        Route::get('/delete/{product}', 'ProductController@delete');
     });
 
     Route::group(array('prefix' => 'members'), function() {
         Route::get('/', 'AdminHomeController@showMembers');
+
+        Route::get('/delete/{member}', 'AdminHomeController@deleteMember');
+    });
+
+    Route::group(array('prefix' => 'transactions'), function() {
+        Route::get('/', 'AdminHomeController@showTransactions');
+        Route::get('/refunded', 'AdminHomeController@showRefunded');
+        Route::get('/refund/{transaction}', 'AdminHomeController@approveRefund');
+    });
+
+    Route::group(array('prefix'=> 'refunded'), function(){
+        Route::get('/', 'AdminHomeController@showRefunded');
     });
 
     Route::get('/login', 'AdminLoginController@showAdminLoginForm')->name('login');

@@ -7,7 +7,7 @@ class Member extends Authenticatable
 {
     //
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'verification_token'
+        'first_name', 'last_name', 'address','email', 'password', 'verification_token'
     ];
 
     protected $casts = [
@@ -21,5 +21,10 @@ class Member extends Authenticatable
     public function verified()
     {
         return $this->email_verified_at;
+    }
+
+    public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class);
     }
 }

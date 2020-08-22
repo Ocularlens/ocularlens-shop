@@ -8,6 +8,11 @@ class Product extends Model
 {
     //
     protected $fillable = [
-        'item_code', 'name', 'description', 'price', 'image_path', 'quantity'
+        'name', 'description', 'price', 'image_path', 'quantity'
     ];
+
+    public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class);
+    }
 }

@@ -24,6 +24,7 @@ class CartController extends Controller
             $cart[$product['id']] = $product;
             $cart[$product['id']]['qty'] = 1;
         }
+
         Session::put('my-cart', $cart);
         return redirect()->back();
     }
@@ -67,10 +68,5 @@ class CartController extends Controller
     {
         Session::forget('my-cart');
         return redirect()->back();
-    }
-
-    public function checkOut()
-    {
-
     }
 }

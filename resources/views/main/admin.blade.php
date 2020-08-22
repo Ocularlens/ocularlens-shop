@@ -28,10 +28,16 @@
             <a href="/admin"><span class="fa fa-tachometer"></span> Home</a>
           </li>
           <li class="{{Request::is('admin/products*')? ' active' : ''}}">
-            <a href="/admin/products"><span class="fa fa-opencart"></span> Products</a>
+            <a href="/admin/products"><span class="fa fa-barcode"></span> Products</a>
           </li>
           <li class="{{Request::is('admin/members*')? ' active' : ''}}">
             <a href="/admin/members"><span class="	fa fa-users"></span> Members</a>
+          </li>
+          <li class="{{Request::is('admin/transactions*')? ' active' : ''}}">
+            <a href="/admin/transactions"><span class="	fa fa-book"></span> Transactions</a>
+          </li>
+          <li class="{{Request::is('admin/refunded*')? ' active' : ''}}">
+            <a href="/admin/refunded"><span class="	fa fa-book"></span> Refunds</a>
           </li>
           <li>
             <a href="/admin/logout"><span class="	fa fa-sign-out"></span> Logout</a>
