@@ -2,8 +2,9 @@
 
 namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Member extends Authenticatable
+class Member extends Authenticatable implements JWTSubject
 {
     //
     protected $fillable = [
@@ -27,4 +28,14 @@ class Member extends Authenticatable
     {
         return $this->belongsToMany(Transaction::class);
     }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    } 
 }

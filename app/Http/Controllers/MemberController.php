@@ -123,7 +123,7 @@ class MemberController extends Controller
         $member->last_name = $request['last-name'];
         $member->address = $request['address'];
         $member->email = $request['email'];
-        $member->password = $request['password'];
+        $member->password = Hash::make($request['password']);
 
         $member->save();
 

@@ -61,6 +61,7 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::get('/', 'AdminHomeController@index');
 
     Route::view('/edit', 'admin.edit');
+    Route::post('/edit', 'AdminController@edit');
 
     Route::group(array('prefix' => 'products'), function() {
         Route::get('/', 'ProductController@index');

@@ -70,7 +70,7 @@ class CheckOutController extends Controller
               'exp_year' => 2000 + $request['expiration-y'],
               'cvc' => $request['cvv'],
             ],
-          ]);
+        ]);
         $charge = $stripe->charges->create([
             'amount' => $this->total * 100,
             'currency' => 'PHP',

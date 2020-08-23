@@ -16,7 +16,7 @@ class AdminHomeController extends Controller
     {
         $this->middleware('auth:admins');
     }
-
+ 
     public function deleteMember($id)
     {
         $member = Member::find($id);
