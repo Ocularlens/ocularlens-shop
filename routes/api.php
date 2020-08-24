@@ -17,13 +17,15 @@ use App\Product;
 Route::group(array('prefix'=> 'admins'), function() {
     Route::post('/login', 'ApiController@adminLogin');
 
-    Route::get('/me', 'ApiController@getAdminCredentials');
+    Route::get('/me', 'ApiController@getAdminCredentials')->middleware('auth:admin-api');
 
     Route::post('/register', 'ApiController@adminRegister');
 
-    Route::post('/logout', 'ApiController@adminLogout');
+    Route::post('/logout', 'ApiController@adminLogout')->middleware('auth:admin-api');
 
-    Route::post('/refresh', 'ApiController@adminRefresh');
+    Route::post('/refresh', 'ApiController@adminRefresh')->middleware('auth:admin-api');
+
+    Route::post('/edit', 'ApiController@adminEdit')->middleware('auth:admin-api');
 });
 
 
@@ -42,13 +44,15 @@ Route::group(array('prefix'=> 'products'), function() {
 Route::group(array('prefix' => 'members'), function () {
     Route::post('/login', 'ApiController@memberLogin');
 
-    Route::get('/me', 'ApiController@getMemberCredentials');
+    Route::get('/me', 'ApiController@getMemberCredentials')->middleware('auth:member-api');
 
     Route::post('/register', 'ApiController@memberRegister');
 
-    Route::post('/logout', 'ApiController@memberLogout');
+    Route::post('/logout', 'ApiController@memberLogout')->middleware('auth:member-api');
 
-    Route::post('/refresh', 'ApiController@memberRefresh');
+    Route::post('/refresh', 'ApiController@memberRefresh')->middleware('auth:member-api');
+
+    Route::post('/edit', 'ApiController@memberEdit')->middleware('auth:member-api');
 
     Route::delete('/{id}', 'ApiController@deleteMember')->middleware('auth:admin-api');
 });

@@ -389,4 +389,64 @@ class ApiController extends Controller
             'message' => 'Member deleted'
         ], 200);
     }
+
+    public function adminEdit(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'firstname' => 'required|max:50',
+            'lastname' => 'required|max:50',
+            'username' => 'required|unique:App\Admin,username,'. auth('admin-api')->user()->id ,
+            'password' => 'required|min:8'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'message' => $validator->messages(),
+            ], 400);
+        }
+
+        $admin = auth('admin-api')->user();
+
+        $admin->first_name = is_null($request->firstname) ? $admin->first_name : $request->firstname;
+        $admin->last_name = is_null($request->lastname) ? $admin->last_name : $request->lastname;
+        $admin->username = is_null($request->username) ? $admin->username : $request->username;
+        $admin->password = is_null($request->password) ? $admin->password : Hash::make($request->password);
+
+        $admin->save();
+
+        return response()->json([
+            'message' => 'Account edited'
+        ], 200);
+    }
+
+    public function memberEdit(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'firstname' => 'required|max:50',
+            'lastname' => 'required|max:50',
+            'email' => 'required|unique:members,email,'. auth('member-api')->user()->id,
+            'password' => 'required|min:8',
+            'address' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'message' => $validator->messages(),
+            ], 400);
+        }
+
+        $member = auth('member-api')->user();
+
+        $member->first_name = is_null($request->firstname) ? $member->first_name : $request->firstname;
+        $member->last_name = is_null($request->lastname) ? $member->last_name : $request->lastname;
+        $member->email = is_null($request->email) ? $member->email : $request->email;
+        $member->address = is_null($request->address) ? $member->address : $request->address;
+        $member->password = is_null($request->password) ? $member->address : Hash::make($request->password);
+
+        $member->save();
+
+        return response()->json([
+            'message' => 'Account edited'
+        ], 200);
+    }
 }
